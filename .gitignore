@@ -1,0 +1,44 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# --- Virtual environment ---
+venv/
+.env/
+.venv/
+
+# --- PyInstaller build directories ---
+build/
+dist/
+*.spec
+
+# --- Logs, cache, temp files ---
+*.log
+*.tmp
+*.temp
+.cache/
+pip-log.txt
+
+# --- Jupyter / IPython ---
+.ipynb_checkpoints/
+
+# --- OS-specific files ---
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# --- PyCharm / VSCode ---
+.idea/
+.vscode/
+
+# --- Other ---
+# Backup and temporary editor files
+*~
+*.swp
+*.swo

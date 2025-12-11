@@ -145,6 +145,24 @@ class CorrelationApp(QWidget):
         self.lbl_result = QLabel("C = ")
         ctrl_layout.addWidget(self.lbl_result)
 
+        # ввод C → вычисление A
+        inv_layout2 = QHBoxLayout()
+        inv_layout2.addWidget(QLabel("Ввести C → найти A:"))
+        self.edit_C = QLineEdit()
+        self.edit_C.setPlaceholderText("число (например 0.01)")
+        self.edit_C.returnPressed.connect(self.on_compute_A)
+        inv_layout2.addWidget(self.edit_C)
+
+        self.btn_compute_A = QPushButton("Вычислить A")
+        self.btn_compute_A.clicked.connect(self.on_compute_A)
+        inv_layout2.addWidget(self.btn_compute_A)
+
+        ctrl_layout.addLayout(inv_layout2)
+
+        self.lbl_result_A = QLabel("A = ")
+        ctrl_layout.addWidget(self.lbl_result_A)
+
+
         # Apply editor changes quickly button
         btn_apply_editor = QPushButton("Применить последние изменения из редактора")
         btn_apply_editor.clicked.connect(self.apply_editor_to_calc)
@@ -305,6 +323,24 @@ class CorrelationApp(QWidget):
                 self.table_widget.setItem(i, j, item)
 
         self._suspend_table_change = False
+
+    def on_compute_A(self):
+        """Вычисление A по введённому C."""
+        try:
+            C = float(self.edit_C.text().replace(",", "."))
+            if C <= 0:
+                raise ValueError
+        except:
+            QMessageBox.warning(self, "Ошибка", "Введите корректное значение C (> 0)")
+            return
+
+        if self.k is None or self.b is None:
+            QMessageBox.warning(self, "Ошибка", "Сначала выберите вещество — нет регрессии.")
+            return
+
+        A = self.k * math.log10(C) + self.b
+        self.lbl_result_A.setText(f"A = {A:.6f}")
+
 
     def on_editor_table_switch(self, idx):
         which = 'no_water' if idx == 0 else 'with_water'
